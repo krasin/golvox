@@ -5,10 +5,9 @@ import (
 	"os"
 
 	"github.com/krasin/stl"
-	//	"github.com/krasin/voxel/set"
+	"github.com/krasin/voxel/nptl"
+	"github.com/krasin/voxel/raster"
 	"github.com/krasin/voxel/timing"
-	//	"github.com/krasin/voxel/triangle"
-	//	"github.com/krasin/voxel/volume"
 )
 
 const (
@@ -26,15 +25,15 @@ func main() {
 	timing.StopTiming("Read STL from Stdin")
 
 	timing.StartTiming("STLToMesh")
-	mesh := STLToMesh(VoxelSide*MeshMultiplier, triangles)
+	mesh := raster.STLToMesh(VoxelSide*MeshMultiplier, triangles)
 	timing.StopTiming("STLToMesh")
 
 	timing.StartTiming("Rasterize")
-	vol := Rasterize(mesh, VoxelSide)
+	vol := raster.Rasterize(mesh, VoxelSide)
 	timing.StopTiming("Rasterize")
 
 	timing.StartTiming("WriteNptl")
-	if err = WriteNptl(vol, mesh.Grid, os.Stdout); err != nil {
+	if err = nptl.WriteNptl(vol, mesh.Grid, os.Stdout); err != nil {
 		log.Fatalf("WriteNptl: %v", err)
 	}
 	timing.StopTiming("WriteNptl")
