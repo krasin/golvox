@@ -1,0 +1,6 @@
+*.txt~
+*.go~
+Makefile~
+README~
+#*#
+*.6
